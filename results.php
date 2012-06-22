@@ -97,7 +97,7 @@
         <div class="span4 offset2">
           <h2>GoogleChartsAPI MostLikes</h2>
           <div id="chart_div"></div>
-          <?php $posts = $disqus->getMostVotes(); ?>
+          <?php $posts = $disqus->getMostLikes(); ?>
           <script type="text/javascript">
             // Load the Visualization API and the piechart package.
             google.load('visualization', '1.0', {'packages':['corechart']});
@@ -110,9 +110,9 @@
               data.addColumn('number', 'Likes');
 
               <?php 
-                print 'var max_value=' . ($posts['posts'][0]->votes + 1) . ';';
+                print 'var max_value=' . ($posts['posts'][0]->likes + 1) . ';';
                 foreach ($posts['posts'] as $post) {
-                  print "data.addRow(['$post->raw_message', $post->votes]);";
+                  print "data.addRow(['$post->raw_message', $post->likes]);";
                 }
               ?>
 
