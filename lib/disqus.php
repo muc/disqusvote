@@ -73,6 +73,7 @@ class Disqus {
 
     foreach ($this->data as $row) {
       $row->votes = $row->likes + $row->dislikes;
+      $this->posts[] = $row;
       $this->summary_likes += $row->likes;
       $this->summary_dislikes += $row->dislikes;
     }
