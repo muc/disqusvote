@@ -2,8 +2,8 @@
 <?php include('lib/disqus.api.keys.php'); ?>
 <?php
   $params = array(
-    'forum' => 'mylocaldisqus',
-    'thread' => '735510857',
+    'forum' => 'shortname',
+    'thread' => 'thread-id',
   );
   $disqus = Disqus::connect(ACCESS_TOKEN, API_KEY, API_SECRET)->getPosts($params);
 ?>
