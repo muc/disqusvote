@@ -2,8 +2,8 @@
 <?php include('lib/disqus.api.keys.php'); ?>
 <?php
   $params = array(
-    'forum' => 'stadtlandflussvoting',
-    'thread' => '736430416',
+    'forum' => 'mylocaldisqus',
+    'thread' => '735510857',
   );
   $disqus = Disqus::connect(ACCESS_TOKEN, API_KEY, API_SECRET)->getPosts($params);
 ?>
@@ -85,7 +85,7 @@
           <?php foreach ($posts['posts'] as $post): ?>
             <div class="row">
               <div class="span2"><?php print $post->raw_message; ?></div>
-              <?php $percent = $posts['summary_likes'] != 0 ? (int) (($post->votes / $posts['summary_votes']) * 100) : 0; ?>
+              <?php $percent = $posts['summary_votes'] != 0 ? (int) (($post->votes / $posts['summary_votes']) * 100) : 0; ?>
               <div class="span2" style="text-align:right;"><?php print $percent; ?>%</div>
             </div>
             <div class="progress">

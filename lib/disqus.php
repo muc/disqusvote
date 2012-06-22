@@ -14,13 +14,9 @@ class Disqus {
   private $errorCode;
 
   private $summary_likes = 0;
-  private $summary_likes_anonyoums = 0;
   private $summary_dislikes = 0;
-  private $summary_dislikes_anonyoums = 0;
   private $summary_votes = 0;
-  private $summary_votes_anonyoums = 0;
   private $posts = array();
-  private $posts_anonyoums = array();
 
   static public function connect($access_token, $api_key, $api_secret) {
     return new self($access_token, $api_key, $api_secret);
@@ -77,20 +73,10 @@ class Disqus {
 
     foreach ($this->data as $row) {
       $row->votes = $row->likes + $row->dislikes;
-      $this->posts_anonyoums[] = $row;
-
-      $this->summary_likes_anonyoums += $row->likes;
-      $this->summary_dislikes_anonyoums += $row->dislikes;
-
-      if (!$row->author->isAnonymous) {
-        $this->posts[] = $row;
-
-        $this->summary_likes += $row->likes;
-        $this->summary_dislikes += $row->dislikes;
-      }
+      $this->summary_likes += $row->likes;
+      $this->summary_dislikes += $row->dislikes;
     }
     $this->summary_votes = $this->summary_likes + $this->summary_dislikes;
-    $this->summary_votes_anonyoums = $this->summary_likes_anonyoums + $this->summary_dislikes_anonyoums;
   }
 
   private function cmp_likes($a, $b) {
@@ -108,46 +94,27 @@ class Disqus {
     return ($a->likes + $a->dislikes) > ($b->likes + $b->dislikes) ? -1 : +1;
   }
 
-  public function getMostLikes($count_anonymous = true) {
-    if ($count_anonymous) {
-      usort($this->posts_anonyoums, array('Disqus', 'cmp_likes'));
-      return array(
-        'posts' => $this->posts_anonyoums,
-        'summary_likes' => $this->summary_likes_anonyoums,
-      );
-    }
+  public function getMostLikes() {
     usort($this->posts, array('Disqus', 'cmp_likes'));
     return array(
       'posts' => $this->posts,
       'summary_likes' => $this->summary_likes,
+      'summary_dislikes' => $this->summary_dislikes,
+      'summary_votes' => $this->summary_votes,
     );
   }
 
-  public function getMostDislikes($count_anonymous = true) {
-    if ($count_anonymous) {
-      usort($this->posts_anonyoums, array('Disqus', 'cmp_dislikes'));
-      return array(
-        'posts' => $this->posts_anonyoums,
-        'summary_dislikes' => $this->summary_dislikes_anonyoums,
-      );
-    }
+  public function getMostDislikes() {
     usort($this->posts, array('Disqus', 'cmp_dislikes'));
     return array(
       'posts' => $this->posts,
+      'summary_likes' => $this->summary_likes,
       'summary_dislikes' => $this->summary_dislikes,
+      'summary_votes' => $this->summary_votes,
     );
   }
 
-  public function getMostVotes($count_anonymous = true) {
-    if ($count_anonymous) {
-      usort($this->posts_anonyoums, array('Disqus', 'cmp_votes'));
-      return array(
-        'posts' => $this->posts_anonyoums,
-        'summary_likes' => $this->summary_likes_anonyoums,
-        'summary_dislikes' => $this->summary_dislikes_anonyoums,
-        'summary_votes' => $this->summary_votes_anonyoums,
-      );
-    }
+  public function getMostVotes() {
     usort($this->posts, array('Disqus', 'cmp_votes'));
     return array(
       'posts' => $this->posts,
