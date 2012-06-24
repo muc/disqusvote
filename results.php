@@ -1,3 +1,4 @@
+<?php include('lib/krumo/class.krumo.php'); ?>
 <?php include('lib/disqus.php'); ?>
 <?php include('lib/disqus.api.keys.php'); ?>
 <?php

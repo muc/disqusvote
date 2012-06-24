@@ -53,6 +53,8 @@ class Disqus {
       $this->_prepareResults();
     }
     catch (Http_Exception $error) {
+      echo $error->getMessage();
+      
       $this->success == false;
     }
     return $this;
@@ -138,7 +140,7 @@ class Http_Exception extends Exception {
   const NOT_ALOWED = 405; 
   const CONFLICT = 409; 
   const PRECONDITION_FAILED = 412; 
-  const INTERNAL_ERROR = 500; 
+  const INTERNAL_ERROR = 500;
 }
 
 class Http {
@@ -282,7 +284,8 @@ class Http {
         $out = $_out;
         break;
       default:
-        throw new Http_Exception("http error: {$status}", $status);
+        $disqus_error = json_decode($_out);
+        throw new Http_Exception("http error: {$status} - {$disqus_error->response} (code: {$disqus_error->code})", $status);
     }
     return $out;
   }
