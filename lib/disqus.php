@@ -267,7 +267,7 @@ class Http {
         curl_setopt($s, CURLOPT_POSTFIELDS, $params);
         break;
       case self::GET:
-        curl_setopt($s, CURLOPT_URL, $url . '?' . http_build_query($params));
+        curl_setopt($s, CURLOPT_URL, $url . '?' . http_build_query($params, '', '&'));
         break;
     }
 
