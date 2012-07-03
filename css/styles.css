@@ -1,3 +1,11 @@
 body {
   padding-top: 60px; 
 }
+
+.sidenav {
+  margin-top: 21px;
+}
+
+.results-block {
+  margin-bottom: 50px;
+}
