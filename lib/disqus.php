@@ -9,7 +9,7 @@ class Disqus {
   private $api_key;
   private $api_secret;
   private $data = NULL;
-  private $error_message = array();
+  private $error_message;
   private $success = false;
   private $errorCode;
 
@@ -53,7 +53,7 @@ class Disqus {
       $this->_prepareResults();
     }
     catch (Http_Exception $error) {
-      echo $error->getMessage();
+      $this->error_message = $error->getMessage();
       
       $this->success = false;
     }
@@ -66,6 +66,10 @@ class Disqus {
 
   public function errorCode() {
     return $this->errorCode;
+  }
+
+  public function errorMessage() {
+    return $this->error_message;
   }
 
   private function _prepareResults() {

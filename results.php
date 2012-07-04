@@ -62,7 +62,10 @@
             <h1>Results via CSS</h1>
           </div>
           <?php if (!$disqus->success()): ?>
-            <p>no results</p>
+            <div class="alert alert-error">
+              <h4 class="alert-heading">Error!</h4>
+              <?php print $disqus->errorMessage(); ?>
+            </div>
           <?php else: ?>
 
             <div class="results-block">
