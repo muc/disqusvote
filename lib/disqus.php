@@ -55,7 +55,7 @@ class Disqus {
     catch (Http_Exception $error) {
       echo $error->getMessage();
       
-      $this->success == false;
+      $this->success = false;
     }
     return $this;
   }
