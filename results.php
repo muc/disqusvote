@@ -72,7 +72,7 @@
                 <?php if ($post->likes): ?>
                   <div class="row">
                     <div class="span6"><?php print $post->raw_message; ?></div>
-                    <?php $percent = $posts['summary_likes'] != 0 ? (int) (($post->likes / $posts['summary_likes']) * 100) : 0; ?>
+                    <?php $percent = $posts['summary_likes'] != 0 ? (int) round((($post->likes / $posts['summary_likes']) * 100), 0) : 0; ?>
                     <div class="span3" style="text-align:right;"><?php print $percent; ?>%</div>
                   </div>
                   <div class="progress progress-success">
@@ -89,7 +89,7 @@
                 <?php if ($post->dislikes): ?>
                   <div class="row">
                     <div class="span2"><?php print $post->raw_message; ?></div>
-                    <?php $percent = $posts['summary_dislikes'] != 0 ? (int) (($post->dislikes / $posts['summary_dislikes']) * 100) : 0; ?>
+                    <?php $percent = $posts['summary_dislikes'] != 0 ? (int) round((($post->dislikes / $posts['summary_dislikes']) * 100), 0) : 0; ?>
                     <div class="span2" style="text-align:right;"><?php print $percent; ?>%</div>
                   </div>
                   <div class="progress progress-danger">
@@ -106,7 +106,7 @@
                 <?php if ($post->votes): ?>
                   <div class="row">
                     <div class="span2"><?php print $post->raw_message; ?></div>
-                    <?php $percent = $posts['summary_votes'] != 0 ? (int) (($post->votes / $posts['summary_votes']) * 100) : 0; ?>
+                    <?php $percent = $posts['summary_votes'] != 0 ? (int) round((($post->votes / $posts['summary_votes']) * 100), 0) : 0; ?>
                     <div class="span2" style="text-align:right;"><?php print $percent; ?>%</div>
                   </div>
                   <div class="progress progress-warning">
@@ -116,7 +116,6 @@
               <?php endforeach ?>
             </div>
             
-
           <?php endif; ?>
         </div>
 
@@ -172,9 +171,9 @@
             </div>
 
             <div class="results-block">
-              <h2>Most Dislikes</h2>
+              <h2>Most <strike>Dislikes</strike> Likes</h2>
               <div id="dislike_chart_div"></div>
-              <?php $posts = $disqus->getMostDislikes(); ?>
+              
               <script type="text/javascript">
                 // Load the Visualization API and the piechart package.
                 google.load('visualization', '1.0', {'packages':['corechart']});
@@ -187,10 +186,9 @@
                   data.addColumn('number', 'Likes');
 
                   <?php 
-                    print 'var max_value=' . ($posts['posts'][0]->dislikes + 1) . ';';
                     foreach ($posts['posts'] as $post) {
-                      if ($post->dislikes) {
-                        print "data.addRow(['$post->raw_message', $post->dislikes]);";
+                      if ($post->likes) {
+                        print "data.addRow(['$post->raw_message', $post->likes]);";
                       }
                     }
                   ?>
